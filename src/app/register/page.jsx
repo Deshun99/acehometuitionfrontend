@@ -1,30 +1,33 @@
 "use client";
 import React, { useRef } from "react";
 import styles from "./page.module.css";
-import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { RadioButton } from "primereact/radiobutton";
 import { ProgressSpinner } from "primereact/progressspinner";
+import { Toast } from "primereact/toast";
+import Enums from "../common/enums/enums";
+import Link from "next/link";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-import { Card } from "primereact/card";
-import Enums from "../common/enums/enums";
+import { createUser } from "../api/user/route";
 
-const Login = () => {
+const Register = () => {
   const session = useSession();
   const router = useRouter();
+  const toast = useRef(null);
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     role: "",
+    firstName: "",
+    lastName: "",
   });
-  const [errorMessage, setErrorMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [loadingRegister, setLoadingRegister] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -46,70 +49,91 @@ const Login = () => {
     );
   }
 
-  if (session.status === "authenticated") {
-    router?.push("/dashboard");
-  }
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
-    setLoading(false);
-    const { email, password, role } = formData;
+    const { firstName, lastName, email, password, role } = formData;
 
-    if (!email) {
+    if (!firstName) {
+      setErrorMessage("Please fill in your first name!");
+      return;
+    } else if (!email) {
       setErrorMessage("Please fill in your email!");
       return;
     } else if (!password) {
       setErrorMessage("Please fill in your password!");
       return;
     } else if (!role) {
-      setErrorMessage("Please fill in your role!");
+      setErrorMessage("Please select your role!");
       return;
     } else {
+      const data = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        role: role,
+      };
+
       try {
         setLoading(true);
-        const result = await signIn("credentials", {
-          redirect: false,
-          email,
-          password,
-          role,
-        });
-        if (!result.error) {
-          // User signed in successfully
-          router.push("/dashboard");
+        const response = await createUser(data);
+        if (response.statusCode == 409) {
+          setErrorMessage(response.message);
           setLoading(false);
-        } else {
-          // Handle the error result.error
-          console.error(`Login error: ${result.error}`);
+        } else if (response.statusCode == 200) {
+          toast.current.show({
+            severity: "success",
+            summary: "Success",
+            detail: "You have registered successfully!",
+            life: 5000,
+          });
+          router.push("/login?success=Account has been created");
           setLoading(false);
-          setErrorMessage(result.error);
         }
       } catch (error) {
-        console.error("An error occurred during authentication:", error);
-        setLoading(false);
+        console.error("Fetch error:", error);
         setErrorMessage(error);
+        setLoading(false);
       }
     }
   };
 
-  const handleRegister = async (e) => {
-    setLoadingRegister(true);
-    router.push("/register");
-  };
-
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Login</h1>
+      <Toast ref={toast} />
+      <h1 className={styles.title}>Register</h1>
       {errorMessage && <p className={styles.error}>{errorMessage}</p>}
       <form className={styles.form}>
+        <div className={styles.inputContainer}>
+          <p>First Name</p>
+          <InputText
+            type="text"
+            name="firstName"
+            className={styles.input}
+            value={formData.firstName}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+        <div className={styles.inputContainer}>
+          <p>Last Name</p>
+          <InputText
+            type="text"
+            name="lastName"
+            className={styles.input}
+            value={formData.lastName}
+            onChange={handleInputChange}
+          />
+        </div>
         <div className={styles.inputContainer}>
           <p>Email</p>
           <InputText
             type="email"
             name="email"
+            className={styles.input}
             value={formData.email}
             onChange={handleInputChange}
-            className={styles.input}
             required
           />
         </div>
@@ -123,7 +147,6 @@ const Login = () => {
             value={formData.password}
             onChange={handleInputChange}
             required
-            toggleMask
           />
           <button
             type="button"
@@ -132,22 +155,10 @@ const Login = () => {
           >
             {showPassword ? "Hide" : "Show"}
           </button>
-          <Link className={styles.forgotPassword} href="/forgetPassword">
-            Forgot Password?
-          </Link>
         </div>
 
         <div className={styles.radio}>
           <p>I am a:</p>
-          <RadioButton
-            inputId={Enums.TUTEE}
-            name="role"
-            value={Enums.TUTEE}
-            onChange={handleInputChange}
-            checked={formData.role === Enums.TUTEE}
-            required
-          />
-          <label htmlFor={Enums.TUTEE}>Tutee</label>
           <RadioButton
             inputId={Enums.TUTOR}
             name="role"
@@ -156,36 +167,40 @@ const Login = () => {
             checked={formData.role === Enums.TUTOR}
             required
           />
-          <label htmlFor={Enums.TUTOR}>Tutor</label>
+          <label htmlFor={Enums.TUTOR} className="ml-2">
+            Tutor
+          </label>
+          <RadioButton
+            inputId={Enums.TUTEE}
+            name="role"
+            value={Enums.TUTEE}
+            onChange={handleInputChange}
+            checked={formData.role === Enums.TUTEE}
+            required
+          />
+          <label htmlFor={Enums.TUTEE} className="ml-2">
+            Tutee
+          </label>
         </div>
         {loading && (
           <ProgressSpinner style={{ width: "50px", height: "50px" }} />
         )}
         {!loading && (
-          <Button
-            className={styles.button}
-            type="submit"
-            onClick={handleSubmit}
-          >
-            Sign in
+          <Button className={styles.button} onClick={handleSubmit}>
+            Join Kideas
           </Button>
         )}
       </form>
-      <div className={styles.orContainer}>
-        <div className={styles.orSeparator}></div>
-        <span className={styles.orText}>or</span>
-        <div className={styles.orSeparator}></div>
+      <div className={styles.signInContainer}>
+        <div>
+          <p>Already on Kideas?</p>
+        </div>
+        <Link href="/login" className={styles.signInLink}>
+          Sign in
+        </Link>
       </div>
-      {loadingRegister && (
-        <ProgressSpinner style={{ width: "50px", height: "50px" }} />
-      )}
-      {!loadingRegister && (
-        <Button className={styles.registerButton} onClick={handleRegister}>
-          Don't have an account, Join Now!
-        </Button>
-      )}
     </div>
   );
 };
 
-export default Login;
+export default Register;

@@ -3,16 +3,12 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { notFound } from "next/navigation";
 import bcrypt from "bcryptjs";
-import { getUserByUserId } from "../user/route";
+import { getUserByUserId } from "../../user/route";
 import Enums from "@/app/common/enums/enums";
 
 
 const handler = NextAuth({
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }),
     CredentialsProvider({
       credentials: {
         email: "email",
@@ -22,12 +18,13 @@ const handler = NextAuth({
       async authorize(credentials) {
         const { email, password, role } = credentials;
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/users/login?email=${email}&password=${password}&role=${role}`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/users/login`,
           {
-            method: "GET",
+            method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
+            body: JSON.stringify({ email, password, role }),
             cache: "no-store",
           }
         );
