@@ -60,33 +60,23 @@ body {
   font-family: "Kollektif", sans-serif;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.theme {
-  transition: 1s all ease ;
-}
-
-.light {
-  background-color: white;
-  color: #111;
-}
-
-.dark {
-  background-color: #111;
-  color: #bbb;
-}
-
 .container {
   max-width: 100%;
   min-height: 100vh;
   margin: 0 auto;
-  padding: 0 0px;
+  padding: 0px 0px 0px 250px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
+}
+
+.pageContainer {
+  max-width: 100%;
+  min-height: 95vh;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .datatableContainer {

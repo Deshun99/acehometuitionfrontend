@@ -3,8 +3,9 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { notFound } from "next/navigation";
 import bcrypt from "bcryptjs";
-import { getUserByUserId } from "../../user/route";
+import { getUserByUserId } from "../user/route";
 import Enums from "@/app/common/enums/enums";
+
 
 const handler = NextAuth({
   providers: [
