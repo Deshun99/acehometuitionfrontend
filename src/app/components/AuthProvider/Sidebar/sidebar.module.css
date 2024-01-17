@@ -1,0 +1,17 @@
+.sidebarContainer {
+    display: flex;
+}
+
+.surfaceSection {
+  height: 100vh;
+  position: fixed; /* Fixed position regardless of scrolling */
+  top: 0;
+  left: 0;
+  z-index: 1;
+  border-right: 1px solid #ccc;
+  user-select: none;
+  width: 250px; /* Sidebar width */
+  overflow-y: auto; 
+  background-color: aquamarine;
+}
+
