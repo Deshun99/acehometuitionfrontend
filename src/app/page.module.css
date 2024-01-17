@@ -1,6 +1,6 @@
 .imageContainer {
   width: 100%; /* Full width */
-  max-height: 612px; /* Adjust this value to your preference */
+  max-height: 550px;
   position: relative; /* For the Image component with layout='fill' */
   overflow: hidden; /* This will hide the parts of the image that overflow the container */
 }
@@ -14,6 +14,7 @@
   flex-direction: row;
   justify-content: space-between;
   gap: 20px;
+  padding: 20px;
 }
 
 .preambleContent {
@@ -23,13 +24,96 @@
   margin-left: 50px;
   margin-top: 10px;
   margin-bottom: 10px;
-  width: 1500px;
+  width: 1200px;
   min-height: 200px;
   color: white;
 }
 
 .requestTutorCard {
+  border-radius: 20px;
+  max-width: 500px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Montserrat', sans-serif;
+  padding: 15px; 
+}
+
+.headerCard {
+  display: flex;
+  justify-content: center;
+  background-color: #ff9404;
+  color: white;
+  font-weight: bold;
+}
+
+.contentCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin-top: 10px;
-  margin-right: 10px;
   margin-bottom: 10px;
 }
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 50px;
+  margin-bottom: 10px;
+}
+
+.inputContainer {
+  width: 200px;
+  position: relative; /* Set to relative so that the button can be positioned absolutely within this container */
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  padding: 5px;
+  background-color: #f0ecec;
+  border: 1px solid rgb(72, 56, 56);
+  color: black;
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: bold;
+  width: 100%; /* Ensure input takes full width of the container */
+  box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+}
+
+.inputContainer1 {
+  width: 450px;
+  position: relative; /* Set to relative so that the button can be positioned absolutely within this container */
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.itemLabel {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-left: 2px;
+}
+
+.addStudentButton {
+  width: 180px;
+  padding: 5px;
+}
+
+.removeStudentButton {
+  width: 150px;
+  padding: 5px;
+  background-color: red;
+  margin-top: 10px;
+}
+
+.submitButton {
+  width: 450px;
+  padding: 5px;
+  background-color: green;
+  margin-top: 10px;
+  justify-content: center;
+}
+
+

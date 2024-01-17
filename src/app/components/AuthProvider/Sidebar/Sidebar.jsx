@@ -1,13 +1,35 @@
 "use client";
-import React, { useState, useRef } from "react";
 import { Button } from "primereact/button";
 import { Avatar } from "primereact/avatar";
 import { Ripple } from "primereact/Ripple";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./sidebar.module.css";
+import { signOut, useSession } from "next-auth/react";
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "@/app/context/UserContext";
+import NavItem from "../NavItem/NavItem";
 
 const SidebarMenu = () => {
+
+  const session = useSession();
+
+  let roleRef, sessionTokenRef, userIdRef;
+
+  if (session && session.data && session.data.user) {
+    userIdRef = session.data.user.userId;
+    roleRef = session.data.user.role;
+    sessionTokenRef = session.data.user.accessToken;
+  }
+
+  const { userData } = useContext(UserContext);
+
+  const handleSignOut = async (event) => {
+    event.preventDefault();
+    await signOut({ redirect: false });
+    window.location.replace("/");
+  };
+
   return (
     <div className={styles.sidebarContainer}>
       <div id="app-sidebar-2" className={styles.surfaceSection}>
@@ -24,37 +46,48 @@ const SidebarMenu = () => {
             </Link>
           </div>
           <div className="overflow-y-auto">
-            <Link href="/">
-              <div
-                className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <i className="pi pi-home mr-2"></i>
-                <span className="font-medium">Home</span>
+            <Link href="/" style={{ textDecoration: "none" }}>
+              <div className={styles.navLink}>
+                <i className="pi pi-home"></i>
+                <span className={styles.textStyle}>Home</span>
                 <Ripple />
               </div>
             </Link>
-            <Link href="/tuition-rates">
-              <div
-                className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <i className="pi pi-money-bill mr-2"></i>
-                <span className="font-medium">Tuition Rates</span>
+            <Link href="/tuition-rates" style={{ textDecoration: "none" }}>
+              <div className={styles.navLink}>
+                <i className="pi pi-money-bill"></i>
+                <span className={styles.textStyle}>Tuition Rates</span>
                 <Ripple />
               </div>
             </Link>
-            <Link href="/subjects">
-              <div
-                className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <i className="pi pi-book mr-2"></i>
-                <span className="font-medium">Subjects</span>
+            <Link href="/subjects" style={{ textDecoration: "none" }}>
+              <div className={styles.navLink}>
+                <i className="pi pi-book"></i>
+                <span className={styles.textStyle}>Subjects</span>
                 <Ripple />
               </div>
             </Link>
           </div>
+          {session.status === "authenticated" && (
+            <>
+              <div className={styles.userContainer}>
+                <h4>Welcome back,</h4>
+                <div className={styles.rowUser}>
+                  <h4>{userData?.firstName}</h4>
+                  <h4>{userData?.lastName}</h4>
+                </div>
+              </div>
+              <div className={styles.menuItem} onClick={handleSignOut}>
+                <Link href="/" style={{ textDecoration: "none" }}>
+                  <div className={styles.navLink}>
+                    <i className="pi pi-sign-out"></i>
+                    <span className={styles.textStyle}>Logout</span>
+                    <Ripple />
+                  </div>
+                </Link>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
