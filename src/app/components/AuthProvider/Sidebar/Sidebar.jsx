@@ -68,7 +68,7 @@ const SidebarMenu = () => {
               </div>
             </Link>
           </div> */}
-          {session.status !== "authenticated" && (
+          {session.status === "unauthenticated" && (
             <>
               <Link href="/login" style={{ textDecoration: "none" }}>
                 <div className={styles.navLink}>
@@ -88,7 +88,7 @@ const SidebarMenu = () => {
                   <h4>{userData?.lastName}</h4>
                 </div>
               </div>
-              <div className={styles.menuItem} onClick={handleSignOut}>
+              <div className={styles.menuItem}>
                 <Link
                   href="/accountManagement"
                   style={{ textDecoration: "none" }}
@@ -99,7 +99,10 @@ const SidebarMenu = () => {
                     <Ripple />
                   </div>
                 </Link>
-                <Link href="/datatable" style={{ textDecoration: "none" }}>
+                <Link
+                  href="/datatableExample"
+                  style={{ textDecoration: "none" }}
+                >
                   <div className={styles.navLink}>
                     <i className="pi pi-book"></i>
                     <span className={styles.textStyle}>Datatable</span>
@@ -107,7 +110,7 @@ const SidebarMenu = () => {
                   </div>
                 </Link>
                 <Link href="/" style={{ textDecoration: "none" }}>
-                  <div className={styles.navLink}>
+                  <div className={styles.navLink} onClick={handleSignOut}>
                     <i className="pi pi-sign-out"></i>
                     <span className={styles.textStyle}>Logout</span>
                     <Ripple />
