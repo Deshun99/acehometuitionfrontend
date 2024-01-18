@@ -45,7 +45,7 @@ const SidebarMenu = () => {
               />
             </Link>
           </div>
-          <div className="overflow-y-auto">
+          {/* <div className="overflow-y-auto">
             <Link href="/" style={{ textDecoration: "none" }}>
               <div className={styles.navLink}>
                 <i className="pi pi-home"></i>
@@ -67,7 +67,18 @@ const SidebarMenu = () => {
                 <Ripple />
               </div>
             </Link>
-          </div>
+          </div> */}
+          {session.status !== "authenticated" && (
+            <>
+              <Link href="/login" style={{ textDecoration: "none" }}>
+                <div className={styles.navLink}>
+                  <i className="pi pi-book"></i>
+                  <span className={styles.textStyle}>Login</span>
+                  <Ripple />
+                </div>
+              </Link>
+            </>
+          )}
           {session.status === "authenticated" && (
             <>
               <div className={styles.userContainer}>
@@ -78,6 +89,23 @@ const SidebarMenu = () => {
                 </div>
               </div>
               <div className={styles.menuItem} onClick={handleSignOut}>
+                <Link
+                  href="/accountManagement"
+                  style={{ textDecoration: "none" }}
+                >
+                  <div className={styles.navLink}>
+                    <i className="pi pi-user"></i>
+                    <span className={styles.textStyle}>Account Management</span>
+                    <Ripple />
+                  </div>
+                </Link>
+                <Link href="/datatable" style={{ textDecoration: "none" }}>
+                  <div className={styles.navLink}>
+                    <i className="pi pi-book"></i>
+                    <span className={styles.textStyle}>Datatable</span>
+                    <Ripple />
+                  </div>
+                </Link>
                 <Link href="/" style={{ textDecoration: "none" }}>
                   <div className={styles.navLink}>
                     <i className="pi pi-sign-out"></i>

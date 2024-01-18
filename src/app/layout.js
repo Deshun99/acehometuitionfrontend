@@ -22,18 +22,18 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <ThemeProvider>
-          <AuthProvider>
-            <UserProvider>
-              <div className='container'>
-                <SidebarMenu/>
-                {children}
-                <Footer />
-              </div>
-            </UserProvider>
-          </AuthProvider>
-        </ThemeProvider>
+          <ThemeProvider>
+            <AuthProvider>
+              <UserProvider>
+                <div className="container">
+                  <SidebarMenu />
+                  {children}
+                  <Footer />
+                </div>
+              </UserProvider>
+            </AuthProvider>
+          </ThemeProvider>
       </body>
     </html>
-  )
+  );
 }
