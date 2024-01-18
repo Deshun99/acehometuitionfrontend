@@ -9,20 +9,13 @@ const Dashboard = () => {
 
   const router = useRouter();
 
-  const accessToken =
-    session.status === "authenticated" &&
-    session.data &&
-    session.data.user.accessToken;
+  let roleRef, accessToken, userId;
 
-  const userId =
-    session.status === "authenticated" &&
-    session.data &&
-    session.data.user.userId;
-
-  const roleRef =
-    session.status === "authenticated" &&
-    session.data &&
-    session.data.user.role;
+  if (session && session.data && session.data.user) {
+    userId = session.data.user.userId;
+    roleRef = session.data.user.role;
+    accessToken = session.data.user.accessToken;
+  }
 
   if (session.status === "loading") {
     return <ProgressSpinner />;
@@ -36,7 +29,7 @@ const Dashboard = () => {
     return (
       <>
         <h2>
-          Welcome Back {session.data.user.userId}!
+          Welcome Back {userId}!
         </h2>
       </>
     );
