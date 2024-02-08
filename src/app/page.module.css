@@ -32,7 +32,7 @@
 .requestTutorCard {
   border-radius: 20px;
   max-width: 500px;
-  min-height: 300px;
+  min-height: 250px;
   display: flex;
   flex-direction: column;
   font-family: 'Montserrat', sans-serif;
@@ -53,6 +53,7 @@
   justify-content: center;
   margin-top: 10px;
   margin-bottom: 10px;
+  width: 425px;
 }
 
 .row {
@@ -83,7 +84,7 @@
 }
 
 .inputContainer1 {
-  width: 450px;
+  width: 425px;
   position: relative; /* Set to relative so that the button can be positioned absolutely within this container */
   display: flex;
   flex-direction: column;
@@ -109,11 +110,13 @@
 }
 
 .submitButton {
-  width: 450px;
+  width: 425px;
   padding: 5px;
   background-color: green;
   margin-top: 10px;
   justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
 
