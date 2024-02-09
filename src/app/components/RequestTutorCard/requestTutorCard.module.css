@@ -1,0 +1,92 @@
+.requestTutorCard {
+  border-radius: 20px;
+  max-width: 500px;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Montserrat', sans-serif;
+  padding: 15px; 
+}
+
+.headerCard {
+  display: flex;
+  justify-content: center;
+  background-color: #ff9404;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+.contentCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: -20px;
+  margin-bottom: -20px;
+  width: 425px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 50px;
+  margin-bottom: 10px;
+}
+
+.inputContainer {
+  width: 200px;
+  position: relative; /* Set to relative so that the button can be positioned absolutely within this container */
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  padding: 5px;
+  background-color: #f0ecec;
+  border: 1px solid rgb(72, 56, 56);
+  color: black;
+  border-radius: 5px;
+  font-size: 15px;
+  height: 50px;
+  font-weight: bold;
+  width: 100%; /* Ensure input takes full width of the container */
+  box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+}
+
+.inputContainer1 {
+  width: 425px;
+  position: relative; /* Set to relative so that the button can be positioned absolutely within this container */
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.itemLabel {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-left: 2px;
+}
+
+.addStudentButton {
+  width: 180px;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.removeStudentButton {
+  width: 150px;
+  padding: 5px;
+  background-color: red;
+  margin-top: 10px;
+}
+
+.submitButton {
+  width: 425px;
+  padding: 5px;
+  background-color: green;
+  margin-top: 10px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}

@@ -11,7 +11,6 @@ import { UserContext } from "@/app/context/UserContext";
 import NavItem from "../NavItem/NavItem";
 
 const SidebarMenu = () => {
-
   const session = useSession();
 
   let roleRef, sessionTokenRef, userIdRef;
