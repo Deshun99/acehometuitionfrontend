@@ -79,6 +79,15 @@ body {
   justify-content: flex-start;
 }
 
+.tutorRequestContainer {
+  max-width: 100%;
+  min-height: 95vh;
+  padding: 10px 10px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
 .datatableContainer {
   position: relative;
 }
